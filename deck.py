@@ -2,7 +2,6 @@ import random
 
 from card import Card
 
-
 class Deck:
 
     card_suits = ['clubs', 'diamonds', 'hearts', 'spades']
@@ -26,8 +25,8 @@ class Deck:
             s += str(c) + ', '
         return s[:-2] + ']'
 
-    def get_next_card(self):
-        if self.ptr < len(self.n_decks * 52):
+    def draw(self):
+        if self.ptr < self.n_decks * 52:
             self.ptr += 1
             return self.cards[self.ptr - 1]
         else:
@@ -37,7 +36,5 @@ class Deck:
         self.ptr = 0
         random.shuffle(self.cards) # in place
 
-d = Deck(1)
-print(d)
-d.shuffle()
-print(d)
+    def remaining_cards(self):
+        return self.n_decks * 52 - self.ptr
