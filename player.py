@@ -72,6 +72,54 @@ class ManualPlayer(Player):
                 time.sleep(0.5) # Temporal Solution
                 return 'Stand'
 
+class BasicThorp(Player):
+    '''
+    Chapter 2: Beat The Dealer
+    '''
+
+    def __init__(self):
+        Player().__init__()
+
+    def get_bet(self, shuffled):
+        return 1
+
+    def get_decision(self, info):
+        availiable_decisions, dealer_card, my_ids, player_hands = info
+        my_score, soft = BJ.get_hand_value(player_hands[my_ids[0]])
+
+        if soft is False:
+            if my_score > 17:
+                return 'Stand'
+            if my_score < 12:
+                return 'Hit'
+            if my_score == 12:
+                if dealer_card in ['4', '5', '6']:
+                    return 'Stand'
+                else:
+                    return 'Hit'
+            if my_score == 13:
+                if dealer_card in ['2', '3']:
+                    return 'Stand'
+                else:
+                    return 'Hit'
+            return 'Hit'
+        else:
+            if my_score > 19:
+                return 'Stand'
+            if my_score < 18:
+                return 'Hit'
+            if my_score == 18:
+                if dealer_card in ['9', '10']:
+                    return 'Hit'
+                else:
+                    return 'Stand'
+            if my_score == 19:
+                if dealer_card in ['9', '10']:
+                    return 'Stand'
+                else:
+                    return 'Hit'
+
+
 # a = HitUntilPlayer(10)
 # from card import Card
 # hand = [Card('clubs', 'A'), Card('clubs', 'A'), Card('clubs', 'A')]

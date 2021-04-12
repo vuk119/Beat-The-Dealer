@@ -112,26 +112,40 @@ class Dealer:
         self.cprint("\n")
 
         # Game Report
+        results = []
         for i in range(self.n_players):
             total = self.player_totals[i]
             if d_total > 21 and total <= 21:
                 self.cprint(f"Player {i}, score {total}: WON")
+                results.append(1)
             elif total > 21:
                 self.cprint(f"Player {i}, score {total}: BUST")
+                results.append(0)
             elif d_total == total:
                 self.cprint(f"Player {i}, score {total}: PUSH")
+                results.append(0.5)
             elif d_total > total:
                 self.cprint(f"Player {i}, score {total}: LOST")
+                results.append(0)
             elif d_total < total:
                 self.cprint(f"Player {i}, score {total}: WON")
+                results.append(1)
 
+        return results
 
-
-from player import HitUntilPlayer, ManualPlayer
+from player import HitUntilPlayer, ManualPlayer, BasicThorp
 
 a = HitUntilPlayer(17)
 b = HitUntilPlayer(16)
-m = ManualPlayer()
-d = Dealer([a, b, m], print_game=True)
+bt = BasicThorp()
+d = Dealer([bt], print_game=False)
 d.reset_game()
-d.play()
+
+N = 1000000
+score = 0
+
+for _ in range(N):
+    d.reset_game()
+    score += d.play()[0]
+
+print(score / N)
