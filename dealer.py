@@ -66,6 +66,7 @@ class Dealer:
 
         # Players Decisions
         for i, player in enumerate(self.players):
+            self.cprint(f"Player {i} turn:")
             avaliable_decision = ['Hit', 'Stand'] # TO DO: Implement this properly
             dealer_card = self.dealer_hand[0]
             my_ids = [i]
@@ -75,12 +76,13 @@ class Dealer:
             while decision != 'Stand':
                 if decision == 'Hit':
                     self.player_hands[i].append(self.deck.draw())
+                    self.cprint(f"Player {i} draws {self.player_hands[i][-1]}.")
 
-                self.cprint(f"Player {i} draws {self.player_hands[i][0]}.")
                 total = BJ.get_hand_value(self.player_hands[i])[0]
 
-                if total > 21:
+                if total >= 21:
                     self.cprint(f"Player {i} went bust with a total of {total}")
+                    self.player_totals[i] = total
                     break
                 else:
                     self.cprint(f"Player {i} has a total of {total}")
@@ -124,11 +126,12 @@ class Dealer:
                 self.cprint(f"Player {i}, score {total}: WON")
 
 
-from player import HitUntilPlayer
+
+from player import HitUntilPlayer, ManualPlayer
 
 a = HitUntilPlayer(17)
 b = HitUntilPlayer(16)
-
-d = Dealer([a, b], print_game=True)
+m = ManualPlayer()
+d = Dealer([a, b, m], print_game=True)
 d.reset_game()
 d.play()

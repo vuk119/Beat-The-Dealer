@@ -1,4 +1,8 @@
 from abc import abstractmethod
+import time
+
+import keyboard
+
 from bj import BJ
 
 class Player(object):
@@ -49,6 +53,24 @@ class HitUntilPlayer(Player):
             return 'Hit'
         else:
             return 'Stand'
+
+class ManualPlayer(Player):
+
+    def __init__(self):
+        Player().__init__()
+
+    def get_bet(self, shuffled):
+        return 1
+
+    def get_decision(self, info):
+        while True:
+            if keyboard.is_pressed('h'):
+                time.sleep(0.5) # Temporal Solution
+                return 'Hit'
+            if keyboard.is_pressed('s'):
+                keyboard.release('s')
+                time.sleep(0.5) # Temporal Solution
+                return 'Stand'
 
 # a = HitUntilPlayer(10)
 # from card import Card
