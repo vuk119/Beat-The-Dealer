@@ -19,5 +19,5 @@ class Card:
     def __str__(self):
         return f"Card({self.value}, {self.suit})"
 
-c = Card('clubs', 'A')
-print(c)
+# c = Card('clubs', 'A')
+# print(c)
